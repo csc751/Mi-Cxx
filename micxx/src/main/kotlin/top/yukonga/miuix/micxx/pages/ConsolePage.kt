@@ -49,6 +49,7 @@ import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.micxx.compiler.CompilerService
 import top.yukonga.miuix.micxx.data.AppState
 import top.yukonga.miuix.micxx.data.CompilerMode
+import top.yukonga.miuix.micxx.data.LocalizedStrings
 import top.yukonga.miuix.micxx.data.WandboxCompiler
 
 private val StdoutGreen = Color(0xFF2E7D32)
@@ -108,7 +109,7 @@ fun ConsolePage(
         contentPadding = contentPadding,
     ) {
         item(key = "title_run") {
-            SmallTitle(text = "Run")
+            SmallTitle(text = LocalizedStrings["console_run"])
         }
         item(key = "actions") {
             Row(
@@ -130,7 +131,7 @@ fun ConsolePage(
                         modifier = Modifier.size(18.dp),
                     )
                     Text(
-                        text = if (isCompiling) "Compiling…" else "Run",
+                        text = if (isCompiling) LocalizedStrings["console_compiling"] else LocalizedStrings["console_run"],
                         modifier = Modifier.padding(start = 6.dp),
                     )
                 }
@@ -145,7 +146,7 @@ fun ConsolePage(
                         modifier = Modifier.size(18.dp),
                     )
                     Text(
-                        text = "Clear",
+                        text = LocalizedStrings["console_clear"],
                         modifier = Modifier.padding(start = 6.dp),
                     )
                 }
@@ -162,7 +163,7 @@ fun ConsolePage(
             }
         }
         item(key = "title_mode") {
-            SmallTitle(text = "Compiler Mode")
+            SmallTitle(text = LocalizedStrings["compiler_mode"])
         }
         item(key = "mode_card") {
             Card(
@@ -182,7 +183,7 @@ fun ConsolePage(
         }
         if (compilerMode == CompilerMode.ONLINE_WANDBOX) {
             item(key = "title_wandbox") {
-                SmallTitle(text = "Wandbox Compiler")
+                SmallTitle(text = LocalizedStrings["wandbox_compiler"])
             }
             item(key = "wandbox_card") {
                 Card(
@@ -194,7 +195,7 @@ fun ConsolePage(
                     WandboxCompiler.values().forEach { compiler ->
                         SelectableRow(
                             title = compiler.displayName,
-                            summary = if (compiler.isCpp) "C++" else "C",
+                            summary = if (compiler.isCpp) LocalizedStrings["compiler_cpp"] else LocalizedStrings["compiler_c"],
                             selected = wandboxCompiler == compiler,
                             onClick = { AppState.wandboxCompiler = compiler },
                         )
@@ -203,7 +204,7 @@ fun ConsolePage(
             }
         }
         item(key = "title_stdin") {
-            SmallTitle(text = "stdin")
+            SmallTitle(text = LocalizedStrings["stdin"])
         }
         item(key = "stdin_field") {
             BasicTextField(
@@ -225,7 +226,7 @@ fun ConsolePage(
             )
         }
         item(key = "title_console") {
-            SmallTitle(text = "Console Output")
+            SmallTitle(text = LocalizedStrings["console_output"])
         }
         item(key = "console_card") {
             Card(
@@ -243,7 +244,7 @@ fun ConsolePage(
                             tint = MiuixTheme.colorScheme.onBackgroundVariant,
                         )
                         Text(
-                            text = "Compiler messages",
+                            text = LocalizedStrings["compiler_messages"],
                             fontSize = 13.sp,
                             color = MiuixTheme.colorScheme.onBackgroundVariant,
                             modifier = Modifier.padding(start = 6.dp),
@@ -257,7 +258,7 @@ fun ConsolePage(
                             .padding(top = 8.dp),
                     ) {
                         Text(
-                            text = consoleOutput.ifBlank { "(no output yet)" },
+                            text = consoleOutput.ifBlank { LocalizedStrings["no_output_yet"] },
                             fontFamily = FontFamily.Monospace,
                             fontSize = 12.sp,
                             color = if (consoleOutput.isBlank()) {
@@ -271,7 +272,7 @@ fun ConsolePage(
             }
         }
         item(key = "title_stdout") {
-            SmallTitle(text = "stdout")
+            SmallTitle(text = LocalizedStrings["stdout"])
         }
         item(key = "stdout_card") {
             Card(
@@ -289,7 +290,7 @@ fun ConsolePage(
                         .padding(12.dp),
                 ) {
                     Text(
-                        text = programOutput.ifBlank { "(no stdout)" },
+                        text = programOutput.ifBlank { LocalizedStrings["no_stdout"] },
                         fontFamily = FontFamily.Monospace,
                         fontSize = 12.sp,
                         color = if (programOutput.isBlank()) {
@@ -302,7 +303,7 @@ fun ConsolePage(
             }
         }
         item(key = "title_stderr") {
-            SmallTitle(text = "stderr")
+            SmallTitle(text = LocalizedStrings["stderr"])
         }
         item(key = "stderr_card") {
             Card(
@@ -320,7 +321,7 @@ fun ConsolePage(
                         .padding(12.dp),
                 ) {
                     Text(
-                        text = programError.ifBlank { "(no stderr)" },
+                        text = programError.ifBlank { LocalizedStrings["no_stderr"] },
                         fontFamily = FontFamily.Monospace,
                         fontSize = 12.sp,
                         color = if (programError.isBlank()) {
@@ -371,7 +372,7 @@ private fun SelectableRow(
             }
         }
         Spacer(Modifier.width(12.dp))
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
                 color = MiuixTheme.colorScheme.onBackground,
@@ -379,7 +380,7 @@ private fun SelectableRow(
             if (summary != null) {
                 Text(
                     text = summary,
-                    fontSize = 12.sp,
+                    fontSize = 13.sp,
                     color = MiuixTheme.colorScheme.onBackgroundVariant,
                 )
             }

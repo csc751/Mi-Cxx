@@ -6,6 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 
+enum class AppLanguage(val displayName: String, val tag: String) {
+    ENGLISH("English", "en"),
+    CHINESE("中文", "zh")
+}
+
 enum class Language(val ext: String, val displayName: String) {
     C("c", "C"),
     CPP("cpp", "C++"),
@@ -96,6 +101,7 @@ object AppState {
         private set
 
     // --- Settings ---
+    var appLanguage by mutableStateOf(AppLanguage.ENGLISH)
     var compilerMode by mutableStateOf(CompilerMode.ONLINE_WANDBOX)
     var wandboxCompiler by mutableStateOf(WandboxCompiler.CPP_GCC_LATEST)
     var codeThemeMode by mutableStateOf(CodeThemeMode.SYSTEM)

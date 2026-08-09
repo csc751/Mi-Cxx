@@ -34,6 +34,7 @@ import top.yukonga.miuix.kmp.icon.extended.Play
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.micxx.data.AppState
 import top.yukonga.miuix.micxx.data.CodeThemeMode
+import top.yukonga.miuix.micxx.data.LocalizedStrings
 import top.yukonga.miuix.micxx.editor.CodeEditor
 import top.yukonga.miuix.micxx.editor.CodeThemes
 import top.yukonga.miuix.micxx.storage.ProjectManager
@@ -57,7 +58,6 @@ fun EditorPage(
     val activeIndex = AppState.activeFileIndex
 
     Column(modifier = modifier.fillMaxSize().padding(contentPadding)) {
-        // File Tab bar
         if (openFiles.isNotEmpty()) {
             Row(
                 modifier = Modifier
@@ -89,8 +89,9 @@ fun EditorPage(
                                 Spacer(Modifier.width(8.dp))
                                 Icon(
                                     imageVector = MiuixIcons.Close,
-                                    contentDescription = "Close tab",
+                                    contentDescription = LocalizedStrings["close_tab"],
                                     tint = MiuixTheme.colorScheme.onBackgroundVariant,
+                                    modifier = Modifier.size(14.dp),
                                 )
                             }
                         }
@@ -99,7 +100,6 @@ fun EditorPage(
             }
         }
 
-        // Editor or empty state
         if (activeFile != null) {
             Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 CodeEditor(
@@ -113,7 +113,6 @@ fun EditorPage(
                 )
             }
         } else {
-            // Empty state
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -124,13 +123,13 @@ fun EditorPage(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "No file open",
+                        text = LocalizedStrings["no_file_open"],
                         fontSize = 18.sp,
                         color = MiuixTheme.colorScheme.onBackgroundVariant,
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        text = "Go to Files tab to create or open a file",
+                        text = LocalizedStrings["go_to_files"],
                         fontSize = 14.sp,
                         color = MiuixTheme.colorScheme.onBackgroundVariant,
                     )
@@ -138,7 +137,6 @@ fun EditorPage(
             }
         }
 
-        // Bottom action bar
         if (activeFile != null) {
             Row(
                 modifier = Modifier
@@ -151,7 +149,7 @@ fun EditorPage(
                     ProjectManager.saveFile(activeFile.path, activeFile.content)
                     AppState.saveActiveFile()
                 }) {
-                    Text("Save")
+                    Text(LocalizedStrings["save"])
                 }
                 Spacer(Modifier.width(8.dp))
                 Button(onClick = {
@@ -162,7 +160,7 @@ fun EditorPage(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(imageVector = MiuixIcons.Play, contentDescription = null)
                         Spacer(Modifier.width(4.dp))
-                        Text("Run")
+                        Text(LocalizedStrings["run"])
                     }
                 }
             }

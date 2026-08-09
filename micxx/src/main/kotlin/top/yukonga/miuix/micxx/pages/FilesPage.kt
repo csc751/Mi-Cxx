@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import top.yukonga.miuix.kmp.basic.Button
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
@@ -38,8 +37,10 @@ import top.yukonga.miuix.kmp.icon.extended.Delete
 import top.yukonga.miuix.kmp.icon.extended.ExpandMore
 import top.yukonga.miuix.kmp.icon.extended.File
 import top.yukonga.miuix.kmp.icon.extended.Folder
+import top.yukonga.miuix.kmp.overlay.OverlayDialog
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.micxx.data.CodeFile
+import top.yukonga.miuix.micxx.data.LocalizedStrings
 import top.yukonga.miuix.micxx.data.Project
 import top.yukonga.miuix.micxx.storage.ProjectManager
 
@@ -83,7 +84,7 @@ fun FilesPage(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            item { SmallTitle("Projects (${projects.size})") }
+            item { SmallTitle("${LocalizedStrings["projects"]} (${projects.size})") }
 
             projects.forEach { project ->
                 val isExpanded = expandedProject == project.name
@@ -141,7 +142,7 @@ fun FilesPage(
                                     tint = MiuixTheme.colorScheme.primary,
                                 )
                                 Spacer(Modifier.width(8.dp))
-                                Text(text = "New File", fontSize = 14.sp)
+                                Text(text = LocalizedStrings["new_file"], fontSize = 14.sp)
                             }
                         }
                     }
@@ -171,13 +172,10 @@ fun FilesPage(
                                 )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
-                                    text = file.name,
+                                    text = file.name + if (file.isModified) LocalizedStrings["files_dirty"] else "",
                                     fontSize = 14.sp,
                                     modifier = Modifier.weight(1f),
                                 )
-                                if (file.isModified) {
-                                    Text(text = " *", color = MiuixTheme.colorScheme.primary)
-                                }
                             }
                         }
                     }
@@ -189,7 +187,6 @@ fun FilesPage(
             }
         }
 
-        // New Project FAB-style button at bottom
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -207,85 +204,82 @@ fun FilesPage(
                         contentDescription = null,
                     )
                     Spacer(Modifier.width(4.dp))
-                    Text("New Project")
+                    Text(LocalizedStrings["new_project"])
                 }
             }
         }
     }
 
-    // New Project Dialog
-    if (showNewProjectDialog) {
-        Dialog(onDismissRequest = { showNewProjectDialog = false }) {
-            Card(modifier = Modifier.padding(16.dp)) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text("New Project", fontSize = 18.sp)
-                    Spacer(Modifier.width(0.dp))
-                    BasicTextField(
-                        value = newProjectName,
-                        onValueChange = { newProjectName = it },
-                        textStyle = TextStyle(fontSize = 16.sp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        singleLine = true,
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
-                    ) {
-                        Button(onClick = { showNewProjectDialog = false }) {
-                            Text("Cancel")
-                        }
-                        Spacer(Modifier.width(8.dp))
-                        Button(onClick = {
-                            if (newProjectName.isNotBlank()) {
-                                ProjectManager.createProject(newProjectName.trim())
-                                refreshProjects()
-                                showNewProjectDialog = false
-                            }
-                        }) {
-                            Text("Create")
-                        }
+    OverlayDialog(
+        show = showNewProjectDialog,
+        title = LocalizedStrings["new_project"],
+        onDismissRequest = { showNewProjectDialog = false },
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            BasicTextField(
+                value = newProjectName,
+                onValueChange = { newProjectName = it },
+                textStyle = TextStyle(fontSize = 16.sp, color = MiuixTheme.colorScheme.onBackground),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                singleLine = true,
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                Button(onClick = { showNewProjectDialog = false }) {
+                    Text(LocalizedStrings["cancel"])
+                }
+                Spacer(Modifier.width(8.dp))
+                Button(onClick = {
+                    if (newProjectName.isNotBlank()) {
+                        ProjectManager.createProject(newProjectName.trim())
+                        refreshProjects()
+                        showNewProjectDialog = false
                     }
+                }) {
+                    Text(LocalizedStrings["create"])
                 }
             }
         }
     }
 
-    // New File Dialog
     showNewFileDialog?.let { projectName ->
-        Dialog(onDismissRequest = { showNewFileDialog = null }) {
-            Card(modifier = Modifier.padding(16.dp)) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text("New File in $projectName", fontSize = 18.sp)
-                    Text("e.g. main.cpp, utils.h, solver.c", fontSize = 12.sp, color = MiuixTheme.colorScheme.onBackgroundVariant)
-                    BasicTextField(
-                        value = newFileName,
-                        onValueChange = { newFileName = it },
-                        textStyle = TextStyle(fontSize = 16.sp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        singleLine = true,
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
-                    ) {
-                        Button(onClick = { showNewFileDialog = null }) {
-                            Text("Cancel")
+        OverlayDialog(
+            show = true,
+            title = "${LocalizedStrings["new_file"]} in $projectName",
+            summary = LocalizedStrings["new_file_hint"],
+            onDismissRequest = { showNewFileDialog = null },
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                BasicTextField(
+                    value = newFileName,
+                    onValueChange = { newFileName = it },
+                    textStyle = TextStyle(fontSize = 16.sp, color = MiuixTheme.colorScheme.onBackground),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    singleLine = true,
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    Button(onClick = { showNewFileDialog = null }) {
+                        Text(LocalizedStrings["cancel"])
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    Button(onClick = {
+                        if (newFileName.isNotBlank()) {
+                            val file = ProjectManager.createFile(projectName, newFileName.trim())
+                            refreshFiles(projectName)
+                            onFileOpen(file)
+                            showNewFileDialog = null
                         }
-                        Spacer(Modifier.width(8.dp))
-                        Button(onClick = {
-                            if (newFileName.isNotBlank()) {
-                                val file = ProjectManager.createFile(projectName, newFileName.trim())
-                                refreshFiles(projectName)
-                                onFileOpen(file)
-                                showNewFileDialog = null
-                            }
-                        }) {
-                            Text("Create")
-                        }
+                    }) {
+                        Text(LocalizedStrings["create"])
                     }
                 }
             }

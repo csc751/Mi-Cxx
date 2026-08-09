@@ -27,6 +27,7 @@ import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.theme.ThemeController
 import top.yukonga.miuix.micxx.data.AppState
 import top.yukonga.miuix.micxx.data.CodeThemeMode
+import top.yukonga.miuix.micxx.data.LocalizedStrings
 import top.yukonga.miuix.micxx.pages.AboutPage
 import top.yukonga.miuix.micxx.pages.ConsolePage
 import top.yukonga.miuix.micxx.pages.EditorPage
@@ -47,14 +48,12 @@ fun MiCxxApp() {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = MiuixScrollBehavior()
 
-    val pages = remember {
-        listOf(
-            Triple("Files", MiuixIcons.Folder, "Mi Cxx — Files"),
-            Triple("Editor", MiuixIcons.Edit, "Mi Cxx — Editor"),
-            Triple("Console", MiuixIcons.ConvertFile, "Mi Cxx — Console"),
-            Triple("About", MiuixIcons.Info, "Mi Cxx — About"),
-        )
-    }
+    val pages = listOf(
+        Triple(LocalizedStrings["tab_files"], MiuixIcons.Folder, LocalizedStrings["title_files"]),
+        Triple(LocalizedStrings["tab_editor"], MiuixIcons.Edit, LocalizedStrings["title_editor"]),
+        Triple(LocalizedStrings["tab_console"], MiuixIcons.ConvertFile, LocalizedStrings["title_console"]),
+        Triple(LocalizedStrings["tab_about"], MiuixIcons.Info, LocalizedStrings["title_about"]),
+    )
 
     MiuixTheme(controller = controller) {
         Scaffold(

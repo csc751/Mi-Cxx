@@ -4,40 +4,62 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Monochrome "M" silhouette for Android 13+ themed launcher icons (system-tinted).
-         Same scale/translate as ic_launcher_foreground to match centering and size. -->
+    <!-- Monochrome version of Mi Cxx icon (hexagon with M).
+         Same scale and centering as ic_launcher_foreground. -->
     <group
-        android:scaleX="0.92"
-        android:scaleY="0.92"
-        android:translateX="7.38"
-        android:translateY="3.32">
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M26,30
-            C22.686,30 20,32.686 20,36
-            L20,74
-            C20,77.314 22.686,80 26,80
-            C29.314,80 32,77.314 32,74
-            L32,52.63
-            L43.92,71.17
-            C45.11,72.99 47.45,73.99 49.88,73.82
-            C52.3,73.65 54.5,72.34 55.54,70.29
-            L55.6,70.18
-            L69.88,46.3
-            L69.88,74
-            C69.88,77.314 72.566,80 75.88,80
-            C79.194,80 81.88,77.314 81.88,74
-            L81.88,36
-            C81.88,32.686 79.194,30 75.88,30
-            C72.84,30 70.175,32.273 69.415,35.068
-            L55.72,60.49
-            L55.67,60.57
-            L45.56,44.51
-            C44.21,42.39 41.72,41.26 39.13,41.46
-            C36.54,41.66 34.19,43.17 32.88,45.55
-            L32.86,45.58
-            L32,47.13
-            L32,36
-            C32,32.686 29.314,30 26,30 Z" />
+        android:scaleX="0.78"
+        android:scaleY="0.78"
+        android:translateX="14.94"
+        android:translateY="10.98">
+
+        <!-- Hexagon outline (code chip shape) -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:fillType="evenodd"
+            android:pathData="
+                M54,14
+                L88.64,34
+                L88.64,74
+                L54,94
+                L19.36,74
+                L19.36,34 Z
+
+                M54,22
+                L82.91,36
+                L82.91,72
+                L54,86
+                L25.09,72
+                L25.09,36 Z" />
+
+        <!-- M letter centered inside hexagon -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="
+                M26,30
+                C22.686,30 20,32.686 20,36
+                L20,74
+                C20,77.314 22.686,80 26,80
+                C29.314,80 32,77.314 32,74
+                L32,52.63
+                L43.92,71.17
+                C45.11,72.99 47.45,73.99 49.88,73.82
+                C52.3,73.65 54.5,72.34 55.54,70.29
+                L55.6,70.18
+                L69.88,46.3
+                L69.88,74
+                C69.88,77.314 72.566,80 75.88,80
+                C79.194,80 81.88,77.314 81.88,74
+                L81.88,36
+                C81.88,32.686 79.194,30 75.88,30
+                C72.84,30 70.175,32.273 69.415,35.068
+                L55.72,60.49
+                L55.67,60.57
+                L45.56,44.51
+                C44.21,42.39 41.72,41.26 39.13,41.46
+                C36.54,41.66 34.19,43.17 32.88,45.55
+                L32.86,45.58
+                L32,47.13
+                L32,36
+                C32,32.686 29.314,30 26,30 Z" />
     </group>
 </vector>
