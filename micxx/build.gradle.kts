@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(projects.miuixUi)
     implementation(projects.miuixPreference)
+    implementation(projects.miuixBlur)
     implementation(projects.miuixIcons)
     implementation(libs.androidx.activity)
 }

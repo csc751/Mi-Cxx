@@ -1,3 +1,6 @@
+// Copyright 2026, compose-miuix-ui contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package top.yukonga.miuix.micxx.pages
 
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import top.yukonga.miuix.kmp.basic.Button
@@ -30,10 +31,10 @@ import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.SmallTitle
 import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextField
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Add
 import top.yukonga.miuix.kmp.icon.extended.ChevronForward
-import top.yukonga.miuix.kmp.icon.extended.Delete
 import top.yukonga.miuix.kmp.icon.extended.ExpandMore
 import top.yukonga.miuix.kmp.icon.extended.File
 import top.yukonga.miuix.kmp.icon.extended.Folder
@@ -216,13 +217,14 @@ fun FilesPage(
         onDismissRequest = { showNewProjectDialog = false },
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            BasicTextField(
+            TextField(
                 value = newProjectName,
                 onValueChange = { newProjectName = it },
-                textStyle = TextStyle(fontSize = 16.sp, color = MiuixTheme.colorScheme.onBackground),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
+                label = LocalizedStrings["new_project"],
+                useLabelAsPlaceholder = true,
                 singleLine = true,
             )
             Row(
@@ -254,13 +256,14 @@ fun FilesPage(
             onDismissRequest = { showNewFileDialog = null },
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                BasicTextField(
+                TextField(
                     value = newFileName,
                     onValueChange = { newFileName = it },
-                    textStyle = TextStyle(fontSize = 16.sp, color = MiuixTheme.colorScheme.onBackground),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
+                    label = LocalizedStrings["new_file_hint"],
+                    useLabelAsPlaceholder = true,
                     singleLine = true,
                 )
                 Row(

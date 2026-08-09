@@ -1,8 +1,9 @@
+// Copyright 2026, compose-miuix-ui contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package top.yukonga.miuix.micxx.pages
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -25,7 +25,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
@@ -39,12 +38,12 @@ import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.LinearProgressIndicator
 import top.yukonga.miuix.kmp.basic.SmallTitle
 import top.yukonga.miuix.kmp.basic.Text
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.ui.text.TextStyle
+import top.yukonga.miuix.kmp.basic.TextField
 import top.yukonga.miuix.kmp.icon.MiuixIcons
 import top.yukonga.miuix.kmp.icon.extended.Clear
 import top.yukonga.miuix.kmp.icon.extended.ConvertFile
 import top.yukonga.miuix.kmp.icon.extended.Play
+import top.yukonga.miuix.kmp.preference.RadioButtonPreference
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.micxx.compiler.CompilerService
 import top.yukonga.miuix.micxx.data.AppState
@@ -173,7 +172,7 @@ fun ConsolePage(
                     .padding(bottom = 12.dp),
             ) {
                 CompilerMode.values().forEach { mode ->
-                    SelectableRow(
+                    RadioButtonPreference(
                         title = mode.displayName,
                         selected = compilerMode == mode,
                         onClick = { AppState.compilerMode = mode },
@@ -193,7 +192,7 @@ fun ConsolePage(
                         .padding(bottom = 12.dp),
                 ) {
                     WandboxCompiler.values().forEach { compiler ->
-                        SelectableRow(
+                        RadioButtonPreference(
                             title = compiler.displayName,
                             summary = if (compiler.isCpp) LocalizedStrings["compiler_cpp"] else LocalizedStrings["compiler_c"],
                             selected = wandboxCompiler == compiler,
@@ -207,17 +206,15 @@ fun ConsolePage(
             SmallTitle(text = LocalizedStrings["stdin"])
         }
         item(key = "stdin_field") {
-            BasicTextField(
+            TextField(
                 value = AppState.programInput,
                 onValueChange = { AppState.programInput = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp)
                     .padding(bottom = 12.dp),
-                textStyle = TextStyle(
-                    fontSize = 14.sp,
-                    color = MiuixTheme.colorScheme.onBackground,
-                ),
+                label = LocalizedStrings["stdin"],
+                useLabelAsPlaceholder = true,
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.None,
                     autoCorrect = false,
@@ -331,58 +328,6 @@ fun ConsolePage(
                         },
                     )
                 }
-            }
-        }
-    }
-}
-
-@Composable
-private fun SelectableRow(
-    title: String,
-    selected: Boolean,
-    onClick: () -> Unit,
-    summary: String? = null,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(
-            modifier = Modifier
-                .size(20.dp)
-                .clip(CircleShape)
-                .background(if (selected) MiuixTheme.colorScheme.primary else Color.Transparent)
-                .border(
-                    width = 2.dp,
-                    color = if (selected) MiuixTheme.colorScheme.primary else MiuixTheme.colorScheme.outline,
-                    shape = CircleShape,
-                ),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (selected) {
-                Box(
-                    modifier = Modifier
-                        .size(8.dp)
-                        .clip(CircleShape)
-                        .background(MiuixTheme.colorScheme.onPrimary),
-                )
-            }
-        }
-        Spacer(Modifier.width(12.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                color = MiuixTheme.colorScheme.onBackground,
-            )
-            if (summary != null) {
-                Text(
-                    text = summary,
-                    fontSize = 13.sp,
-                    color = MiuixTheme.colorScheme.onBackgroundVariant,
-                )
             }
         }
     }
