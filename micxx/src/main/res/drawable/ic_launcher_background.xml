@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- MIUI style diagonal gradient background (safe area 108x108) -->
+    <path
+        android:fillColor="#5B57FF"
+        android:pathData="M0,0h108v108h-108z" />
+    <path
+        android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor" xmlns:aapt="http://schemas.android.com/aapt">
+            <gradient
+                android:angle="135"
+                android:endColor="#1E6BFF"
+                android:startColor="#8A7CFF"
+                android:type="linear" />
+        </aapt:attr>
+    </path>
+    <!-- Subtle MIUI-style rounded overlay circle (top-right accent) -->
+    <path
+        android:fillAlpha="0.18"
+        android:fillColor="#FFFFFF"
+        android:pathData="M140,-28m-60,0a60,60 0,1 1,120 0a60,60 0,1 1,-120 0" />
+    <!-- Bottom-left accent -->
+    <path
+        android:fillAlpha="0.12"
+        android:fillColor="#FFFFFF"
+        android:pathData="M-32,140m-52,0a52,52 0,1 1,104 0a52,52 0,1 1,-104 0" />
+</vector>
