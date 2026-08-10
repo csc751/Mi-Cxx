@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
 
+    <!-- miuix-blur declares minSdk=33 because RuntimeShaderBlurProcessor needs API 33,
+         but AboutPage already gates blur usage on isRuntimeShaderSupported() and provides
+         a plain gradient fallback, so Android < 33 simply won't blur. -->
+    <uses-sdk tools:overrideLibrary="top.yukonga.miuix.kmp.blur" />
+
     <application
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"

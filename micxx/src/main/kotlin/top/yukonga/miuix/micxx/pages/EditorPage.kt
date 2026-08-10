@@ -24,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import top.yukonga.miuix.kmp.basic.Button
@@ -94,7 +95,7 @@ fun EditorPage(
                                     imageVector = MiuixIcons.Close,
                                     contentDescription = LocalizedStrings["close_tab"],
                                     tint = MiuixTheme.colorScheme.onBackgroundVariant,
-                                    modifier = Modifier.size(14.dp),
+                                    modifier = Modifier.scale(0.85f),
                                 )
                             }
                         }
